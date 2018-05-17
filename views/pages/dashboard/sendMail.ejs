@@ -1,0 +1,71 @@
+<div id="welcome">
+  <div id="spinner" class="spinner invisible">
+    <img id="img-spinner" src="/images/ajax-loader.gif" alt="Loading"/>
+</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-lg-3">
+        <form action="/sendMail" method="POST">
+          <div class="form-group">
+            <label for="search-input"><h4>Filtrer les contacts : </h4></label>
+            <!-- <input type="text" name="search-input" id="search-input"></input> -->
+            <!-- <input type="text" id="contacts" name="contacts" class="form-control" rows="6" placeholder="Entrez votre texte ici..."></input> -->
+            <div class="form-group">
+                <select class="form-control" id="select-type">
+                  <option>ETA</option>
+                  <option>CONCESSION</option>
+                </select>
+              </div>
+          </div>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+      <div class="col-xs-12 col-lg-9">
+        <h4>Destinataires : </h4>
+        <div id="container-contacts">
+          <% if(contacts){%>
+            <table class="table" id="table-contacts">
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Raison sociale</th>
+                  <th>Nom</th>
+                  <th>Prénom</th>
+                  <th>Code postal</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% contacts.forEach(function(elm, index){ %>
+                  <tr data-idContact="<%= elm.id %>">
+                    <td><%= elm.typeContact %></td>
+                    <td><%= elm.denomination %></td>
+                    <td><%= elm.name %></td>
+                    <td><%= elm.firstName %></td>
+                    <td><%= elm.zipCode %></td>
+                    <td><%= elm.email %></td>
+                    <% }) %>
+                  </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-xs-12 col-lg-9 offset-lg-3">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlTextarea1"><h4>Corps du mail : </h4></label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="6" placeholder="Entre votre texte ici..."></textarea>
+              </div>
+              <button type="submit" class="btn btn-dark">Envoyer</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>
