@@ -47,7 +47,8 @@ module.exports = {
     *                                                                          *
     ***************************************************************************/
     default: {
-      // adapter: 'sails-mysql',
+      adapter: 'sails-mysql',
+      url: 'mysql://b5b56d8565b2c7:f99bf77d@eu-cdbr-west-02.cleardb.net/heroku_ab170ecf41b3291?reconnect=true',
       // url: 'mysql://user:password@host:port/database',
       //--------------------------------------------------------------------------
       //  /\   To avoid checking it in to version control, you might opt to set
