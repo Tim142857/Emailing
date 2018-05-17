@@ -91,7 +91,7 @@ module.exports = {
     * https://sailsjs.com/docs/concepts/models-and-orm/model-settings#?migrate *
     *                                                                          *
     ***************************************************************************/
-    migrate: 'alter',
+    migrate: 'safe',
 
     /***************************************************************************
     *                                                                          *
