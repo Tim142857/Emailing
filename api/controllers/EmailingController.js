@@ -63,10 +63,10 @@ var EmailingController =
   testSend: function(contacts, text, cb){
 
     var send = require('gmail-send')({
-      user: 'timothyleroch@gmail.com',
-      pass: '#Google142857',
-      to:   'timothyleroch@gmail.com',
-      subject: 'test final',
+      user: 'paul@leroch-distribution.fr',
+      pass: 'leroch1793',
+      to:   'paul@leroch-distribution.fr',
+      subject: 'LE ROCH DISTRIBUTION',
       text:    'gmail-send example 1',
     });
 
