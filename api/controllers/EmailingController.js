@@ -3,6 +3,7 @@ var EmailingController =
   sendMails: function(req, res) {
     var body = req.param('mail-body');
     var contacts=JSON.parse(req.param('contacts'));
+    console.log(contacts);
     if(contacts.length > 100){
       res.send('Ceci est une version bêta non fonctionnelle. Vous ne pouvez pas envoyer a plus de 100 destinataires simultanément. Cliquez <a href="/sendMail">ici</a> pour revenir à la page précédente');
     }else{
@@ -63,10 +64,13 @@ var EmailingController =
   testSend: function(contacts, text, cb){
 
     var send = require('gmail-send')({
+      // user: 'timothyleroch@gmail.com',
+      // pass: '#Google142857',
+      // to:   'timothyleroch@gmail.com',
       user: 'paul@leroch-distribution.fr',
       pass: 'leroch1793',
       to:   'paul@leroch-distribution.fr',
-      subject: 'LE ROCH DISTRIBUTION',
+      subject: 'test final',
       text:    'gmail-send example 1',
     });
 

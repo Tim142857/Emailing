@@ -133,6 +133,7 @@ $(document).ready(function(){
     reader.onload = function(event) {
       var text= event.target.result;
       text.split("\n").forEach(function(elm){
+        elm=elm.replace("\n", '');
         onAddContact(elm);
       })
 
