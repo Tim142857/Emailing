@@ -1,14 +1,63 @@
 var EmailingController =
 {
   sendMails: function(req, res) {
-    var body = req.param('body');
-    var contacts=req.param('contacts');
-    // var contacts = JSON.decode(req.param('contacts'));
-    console.log(contacts);
-    EmailingController.testSend(contacts, body, function(){
-      console.log('tout fini');
-      res.send('ok');
+    var body = req.param('mail-body');
+    var contacts=JSON.parse(req.param('contacts'));
+    if(contacts.length > 100){
+      res.send('Ceci est une version bêta non fonctionnelle. Vous ne pouvez pas envoyer a plus de 100 destinataires simultanément. Cliquez <a href="/sendMail">ici</a> pour revenir à la page précédente');
+    }else{
+      var time = 0;
+      var stepTime = 86400000;
+      contacts = EmailingController.divideContacts(contacts, 500);
+      var message = "Mail bien envoyé!";
+      var type="success";
+      contacts.forEach(function(contact, index){
+        setTimeout(function(){
+          console.log('Envoi!')
+          EmailingController.testSend(contact, body, function(err){
+            if(err){
+              message = err;
+              type="failure";
+            }
+          })
+        },time);
+        time += stepTime;
+      });
+      res.view('pages/dashboard/sendMail', {contacts: [], me: req.me, info: {message, type}});
+    }
+  },
+  testSendMails: function(req, res){
+    var body = "Test de l'envoi de mail en prod";
+    contacts=['timothyleroch@gmail.com','timothyleroch@gmail.com', 'timothyleroch@gmail.com', 'timothyleroch@gmail.com','timothyleroch@gmail.com','timothyleroch@gmail.com', 'timothyleroch@gmail.com', 'timothyleroch@gmail.com'];
+    var stepTime = 300000;
+    contacts = EmailingController.divideContacts(contacts, 2);
+    var message = "Mail bien envoyé!";
+    var type="success";
+    contacts.forEach(function(contact, index){
+      setTimeout(function(){
+        console.log('Envoi!')
+        EmailingController.testSend(contact, body, function(err){
+          if(err){
+            message = err;
+            type="failure";
+          }
+        })
+      },stepTime);
+      stepTime += stepTime;
     });
+    res.view('pages/dashboard/sendMail', {contacts: [], me: req.me, info: {message, type}});
+  },
+
+  divideContacts: function(contacts, limit){
+    var arr = [];
+    do{
+      arr.push(contacts.splice(0,limit-1));
+      if(contacts.length < limit){
+        arr.push(contacts);
+        contacts = [];
+        return arr;
+      }
+    }while(contacts.length !== 0)
   },
 
   testSend: function(contacts, text, cb){
@@ -28,19 +77,20 @@ var EmailingController =
       // html: '<html></html>'
       // files: [ filepath ],
     }, function (err, res) {
-      console.log('success mail');
-      console.log(cb);
-      cb();
+      cb(err);
     });
   },
 
   sendMailPage: function(req, res) {
     Contact.find({
-      limit: 10,
+      where: {
+        email: { '!=': '' },
+        typeContact: "ETA"
+      },
       sort: 'name'
     }).exec(function(err, contacts){
       if(err)console.log(err);
-      res.view('pages/dashboard/sendMail', {contacts: contacts});
+      res.view('pages/dashboard/sendMail', {contacts: [], info: null});
     })
   },
 
@@ -73,36 +123,36 @@ var EmailingController =
           contacts.push(contact);
           if(index==items.length){
             // Contact.createEach(contacts).exec(function(err, records){
-              if(err)console.log(err);
-              console.log('1er fichier fini');
+            if(err)console.log(err);
+            console.log('1er fichier fini');
 
-              fs.readFile('concess.csv','utf-8', (err2, content2) => {
-                if(err2) res.serverError(err2);
-                var items2=content2.split("\n");
-                items2.shift();
-                var index2=0;
-                items2.forEach(function(item2){
-                  index2++;
-                  var contact2 = {};
-                  var data = item2.split(";");
-                  contact2.denomination = data[4];
-                  contact2.name=data[5];
-                  contact2.firstName=data[6];
-                  contact2.zipCode=data[11];
-                  contact2.email=data[16];
-                  contact2.typeContact="CONCESSION";
-                  // console.log(contact2)
-                  // console.log('----------------------------------------------------------');
-                  contacts.push(contact2);
-                  if(index2==items2.length){
-                    console.log('sauvegarde contacts');
-                    Contact.createEach(contacts).exec(function(err, newContacts){
-                      if(err) console.log(err);
-                      res.view('pages/dashboard/sendMail', { contacts: newContacts })
-                    })
-                  }
-                })
+            fs.readFile('concess.csv','utf-8', (err2, content2) => {
+              if(err2) res.serverError(err2);
+              var items2=content2.split("\n");
+              items2.shift();
+              var index2=0;
+              items2.forEach(function(item2){
+                index2++;
+                var contact2 = {};
+                var data = item2.split(";");
+                contact2.denomination = data[4];
+                contact2.name=data[5];
+                contact2.firstName=data[6];
+                contact2.zipCode=data[11];
+                contact2.email=data[16];
+                contact2.typeContact="CONCESSION";
+                // console.log(contact2)
+                // console.log('----------------------------------------------------------');
+                contacts.push(contact2);
+                if(index2==items2.length){
+                  console.log('sauvegarde contacts');
+                  Contact.createEach(contacts).exec(function(err, newContacts){
+                    if(err) console.log(err);
+                    res.view('pages/dashboard/sendMail', { contacts: newContacts })
+                  })
+                }
               })
+            })
             // })
           }
         })

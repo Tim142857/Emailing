@@ -10,19 +10,27 @@ Bootstable
   var colsEdi =null;
   var newColHtml = '<div class="btn-group pull-right">'+
 '<button id="bEdit" type="button" class="btn btn-sm btn-default" onclick="rowEdit(this);">' +
-'<i class="fas fa-edit"></i>'+
+'<img src="/images/edit.png" class="icon-action-contact" alt="supprimer"/>'+
 '</button>'+
 '<button id="bElim" type="button" class="btn btn-sm btn-default" onclick="rowElim(this);">' +
-'<i class="fas fa-trash-alt"></i>'+
+'<img src="/images/trash.png" class="icon-action-contact" alt="supprimer"/>'+
 '</button>'+
 '<button id="bAcep" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowAcep(this);">' +
-'<i class="fas fa-check"></i>'+
+'<img src="/images/ok.png" class="icon-action-contact" alt="supprimer"/>'+
 '</button>'+
 '<button id="bCanc" type="button" class="btn btn-sm btn-default" style="display:none;" onclick="rowCancel(this);">' +
-'<i class="fas fa-times"></i>'+
+'<img src="/images/cancel.png" class="icon-action-contact" alt="supprimer"/>'+
 '</button>'+
     '</div>';
   var colEdicHtml = '<td name="buttons">'+newColHtml+'</td>';
+  var addMenu = function(elm, child){
+    if(!child){
+    elm.find('thead tr').append('<th name="buttons"></th>');  //encabezado vacío
+    elm.find('tbody tr').append(colEdicHtml);
+  }else{
+      child.append(colEdicHtml);
+    }
+  }
 
   $.fn.SetEditable = function (options) {
     var defaults = {
@@ -129,7 +137,7 @@ function rowEdit(but) {  //Inicia la edición de una fila
     IterarCamposEdit($cols, function($td) {  //itera por la columnas
         var cont = $td.html(); //lee contenido
         var div = '<div style="display: none;">' + cont + '</div>';  //guarda contenido
-        var input = '<input class="form-control input-sm"  value="' + cont + '">';
+        var input = '<input class="form-control input-sm bootstable-edit"  value="' + cont + '">';
         $td.html(div + input);  //fija contenido
     });
     FijModoEdit(but);

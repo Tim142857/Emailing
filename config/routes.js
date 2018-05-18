@@ -15,7 +15,7 @@ module.exports.routes = {
   //  ║║║║╣ ╠╩╗╠═╝╠═╣║ ╦║╣ ╚═╗
   //  ╚╩╝╚═╝╚═╝╩  ╩ ╩╚═╝╚═╝╚═╝
   'GET /':                   { action: 'view-homepage-or-redirect' },
-  'GET /welcome':            { action: 'dashboard/view-welcome' },
+  'GET /welcome':            'EmailingController.sendMailPage',
 
   'GET /faq':                { view:   'pages/faq' },
   'GET /legal/terms':        { view:   'pages/legal/terms' },
@@ -65,6 +65,7 @@ module.exports.routes = {
   'GET /sendMail': 'EmailingController.sendMailPage',
   'GET /testSend': 'EmailingController.testSend',
   'POST /sendMail': 'EmailingController.sendMails',
-  'GET /getContacts': 'ContactController.getContacts'
+  'GET /getContacts': 'ContactController.getContacts',
+  'GET /testSendMails': 'EmailingController.testSendMails'
 
 };
