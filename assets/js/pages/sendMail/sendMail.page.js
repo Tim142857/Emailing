@@ -11,6 +11,7 @@ $(document).ready(function(){
       to.push($(elm).text());
     })
     $("#input-contacts").val(JSON.stringify(to));
+    $('#mail-body').val($('.nicEdit-main').html());
     $('#mail-form').submit();
   })
 
@@ -114,7 +115,7 @@ $(document).ready(function(){
   var updateContacts = function() {
     $('tbody').html('');
     if(contacts.length === 0){
-      $('tbody').prepend('Aucun contact chargé, veuillez sélectionner un critère');
+      $('tbody').prepend('<span class="text-center">Aucun contact chargé, veuillez sélectionner un critère</span>');
       return false;
     }
     contacts.forEach(function(item, index){

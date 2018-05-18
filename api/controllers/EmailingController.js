@@ -3,7 +3,8 @@ var EmailingController =
   sendMails: function(req, res) {
     var body = req.param('mail-body');
     var contacts=JSON.parse(req.param('contacts'));
-    console.log(contacts);
+    var subject=req.param('mail-subject');
+    console.log(body);
     if(contacts.length > 100){
       res.send('Ceci est une version bêta non fonctionnelle. Vous ne pouvez pas envoyer a plus de 100 destinataires simultanément. Cliquez <a href="/sendMail">ici</a> pour revenir à la page précédente');
     }else{
@@ -15,7 +16,7 @@ var EmailingController =
       contacts.forEach(function(contact, index){
         setTimeout(function(){
           console.log('Envoi!')
-          EmailingController.testSend(contact, body, function(err){
+          EmailingController.testSend(contact, body, subject, function(err){
             if(err){
               message = err;
               type="failure";
@@ -37,7 +38,7 @@ var EmailingController =
     contacts.forEach(function(contact, index){
       setTimeout(function(){
         console.log('Envoi!')
-        EmailingController.testSend(contact, body, function(err){
+        EmailingController.testSend(contact, body, subject, function(err){
           if(err){
             message = err;
             type="failure";
@@ -61,7 +62,7 @@ var EmailingController =
     }while(contacts.length !== 0)
   },
 
-  testSend: function(contacts, text, cb){
+  testSend: function(contacts, text, subject, cb){
 
     var send = require('gmail-send')({
       // user: 'timothyleroch@gmail.com',
@@ -76,9 +77,9 @@ var EmailingController =
 
     send({ // Overriding default parameters
       bcc: contacts,
-      subject: 'test final',         // Override value set as default
-      text: text
-      // html: '<html></html>'
+      subject: subject,         // Override value set as default
+      // text: text
+      html: '<html> '+ text +'</html>'
       // files: [ filepath ],
     }, function (err, res) {
       cb(err);

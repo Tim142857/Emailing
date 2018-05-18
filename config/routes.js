@@ -66,6 +66,7 @@ module.exports.routes = {
   'GET /testSend': 'EmailingController.testSend',
   'POST /sendMail': 'EmailingController.sendMails',
   'GET /getContacts': 'ContactController.getContacts',
-  'GET /testSendMails': 'EmailingController.testSendMails'
+  'GET /testSendMails': 'EmailingController.testSendMails',
+  'GET /addNewContacts': 'ContactController.addNewContacts'
 
 };
