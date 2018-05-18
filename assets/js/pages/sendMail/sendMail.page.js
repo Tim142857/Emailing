@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  bkLib.onDomLoaded(nicEditors.allTextAreas);
+
   var to = ['timothyleroch@gmail.com', 'df6680dd@emailna.co', 'titi2@gmail.com','255624ec@emailna.co', '0xqva@vmani.com','titi4@gmail.com','2kcri@vmani.com','df6680dd@emailna.co','dzez@yopmail.com'];
   // contacts alrdy defined in sendMail.ejs
   var contacts = [];
