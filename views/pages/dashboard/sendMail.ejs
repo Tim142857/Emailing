@@ -75,13 +75,13 @@
             <div class="col-12 col-lg-9 offset-lg-3">
               <form method="POST" action="/sendMail" id="mail-form">
                 <div class="form-group">
-                  <label for="subject"><h4>Sujet du mail : </h4></label>
-                  <input class="form-control" type="text" name="subject" id="mail-subject"></input>
-                  <input type="hidden" id="mail-subject" name="mail-subject"></input>
+                  <label for="mail-subject"><h4>Sujet du mail : </h4></label>
+                  <input class="form-control" type="text" name="mail-subject" id="mail-subject"></input>
+                  <!-- <input type="hidden" id="mail-subject" name="mail-subject"></input> -->
                 </div>
                 <div class="form-group">
                   <label for="mail-body"><h4>Corps du mail : </h4></label>
-                  <textarea class="form-control" id="mail-body" name="mail-body" rows="6" placeholder="Entre votre texte ici..."></textarea>
+                  <textarea class="form-control" id="mail-body" name="mail-body" rows="6" placeholder="Entrez votre texte ici..."></textarea>
                   <input type="hidden" name="contacts" id="input-contacts" />
                 </div>
                 <button type="submit" class="btn btn-dark" id="btn-submit">Envoyer</button>
@@ -91,4 +91,5 @@
 
         </div>
       </div>
+
       <%- /* Expose locals as `window.SAILS_LOCALS` :: */ exposeLocalsToBrowser() %>

@@ -1,6 +1,7 @@
 var EmailingController =
 {
   sendMails: function(req, res) {
+    console.log(req.allParams())
     var body = req.param('mail-body');
     var contacts=JSON.parse(req.param('contacts'));
     var subject=req.param('mail-subject');
@@ -37,7 +38,6 @@ var EmailingController =
     var type="success";
     contacts.forEach(function(contact, index){
       setTimeout(function(){
-        console.log('Envoi!')
         EmailingController.testSend(contact, body, subject, function(err){
           if(err){
             message = err;
